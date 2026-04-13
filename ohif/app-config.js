@@ -1,0 +1,40 @@
+window.config = {
+  routerBasename: '/',
+  showStudyList: true,
+  extensions: [],
+  modes: [],
+  dataSources: [
+    {
+      friendlyName: 'DCM4CHEE PACS',
+      namespace: '@ohif/extension-default.dataSourcesModule.dicomweb',
+      sourceName: 'dicomweb',
+      configuration: {
+        name: 'DCM4CHEE',
+        wadoUriRoot: 'https://192.168.205.102/dcm4chee-arc/aets/DCM4CHEE/wado',
+        qidoRoot: 'https://192.168.205.102/dcm4chee-arc/aets/DCM4CHEE/rs',
+        wadoRoot: 'https://192.168.205.102/dcm4chee-arc/aets/DCM4CHEE/rs',
+        qidoSupportsIncludeField: true,
+        imageRendering: 'wadors',
+        thumbnailRendering: 'wadors',
+        enableStudyLazyLoad: true,
+        supportsFuzzyMatching: true,
+        supportsWildcard: true,
+        staticWado: false,
+      },
+    },
+  ],
+  defaultDataSourceName: 'dicomweb',
+  oidc: [
+    {
+      authority: 'https://192.168.205.102/realms/dcm4chee',
+      client_id: 'ohif-viewer',
+      redirect_uri: 'https://192.168.205.102/callback',
+      response_type: 'code',
+      scope: 'openid profile email',
+      post_logout_redirect_uri: '/logout-redirect.html',
+      autoSilentRenew: true,
+      showDebugInformation: true,
+      loadUserInfo: true,
+    },
+  ],
+};

@@ -1,0 +1,16 @@
+# SSL / secretos
+nginx/ssl/
+*.crt
+*.key
+*.pem
+.env
+
+# Datos docker / volúmenes locales
+db_data/
+wildfly_data/
+storage_data/
+ldap_data/
+slapd_config/
+
+# Basura
+*.log

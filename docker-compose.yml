@@ -1,0 +1,134 @@
+
+services:
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx-proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - dcm4chee
+      - ohif
+      - keycloak
+    networks:
+      - pacsnet
+
+  ldap:
+    image: dcm4che/slapd-dcm4chee:2.6.10-34.3
+    container_name: dcm4chee-ldap
+    environment:
+      ARCHIVE_HOST: dcm4chee
+      STORAGE_DIR: /storage/fs1
+      KEYCLOAK_DEVICE_NAME: keycloak
+      TZ: America/Tegucigalpa
+    volumes:
+      - ldap_data:/var/lib/openldap/openldap-data
+      - slapd_config:/etc/openldap/slapd.d
+    networks:
+      - pacsnet
+
+  db:
+    image: dcm4che/postgres-dcm4chee:17.4-34
+    container_name: dcm4chee-db
+    environment:
+      POSTGRES_DB: pacsdb
+      POSTGRES_USER: pacs
+      POSTGRES_PASSWORD: pacs
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - pacsnet
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pacs -d pacsdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  keycloak-db:
+    image: postgres:14
+    container_name: dcm4chee-keycloak-db
+    environment:
+      POSTGRES_PASSWORD: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_DB: keycloak
+    volumes:
+      - keycloak_db_data:/var/lib/postgresql/data
+    networks:
+      - pacsnet
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U keycloak"]
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:22.0.5
+    container_name: dcm4chee-keycloak
+    command: start-dev --http-port=8080
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://keycloak-db:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak
+      KC_HOSTNAME_STRICT: "false"
+      KC_HTTP_ENABLED: "true"
+      KC_PROXY: edge
+    networks:
+      - pacsnet
+
+  dcm4chee:
+    image: dcm4che/dcm4chee-arc-psql:5.34.3
+    container_name: dcm4chee
+    restart: unless-stopped
+    user: root
+    depends_on:
+      db:
+        condition: service_healthy
+      keycloak:
+        condition: service_started
+    ports:
+      - "11112:11112"
+      - "8080:8080"
+    environment:
+      AUTH_SERVER_URL: https://192.168.205.102/realms/dcm4chee
+      KEYCLOAK_REALM: dcm4chee
+      WILDFLY_CHASSIS: secure-ui
+      POSTGRES_DB: pacsdb
+      POSTGRES_USER: pacs
+      POSTGRES_PASSWORD: pacs
+      WILDFLY_CHOWN: /opt/wildfly/standalone /storage
+      WILDFLY_WAIT_FOR: ldap:389 db:5432 keycloak:8080
+      TZ: America/Tegucigalpa
+      JAVA_OPTS: >-
+        -Xms512m -Xmx2g
+        -Djava.net.preferIPv4Stack=true
+        -Djava.awt.headless=true
+        -Ddcm4chee-arc.cors.allowed-origins=*
+    volumes:
+      - wildfly_data:/opt/wildfly/standalone
+      - storage_data:/storage
+    networks:
+      - pacsnet
+
+  ohif:
+    image: ohif/app:latest
+    container_name: ohif
+    volumes:
+      - ./ohif/app-config.js:/usr/share/nginx/html/app-config.js:ro
+    networks:
+      - pacsnet
+
+volumes:
+  ldap_data:
+  slapd_config:
+  db_data:
+  wildfly_data:
+  storage_data:
+  keycloak_db_data:
+
+networks:
+  pacsnet:
+    driver: bridge
