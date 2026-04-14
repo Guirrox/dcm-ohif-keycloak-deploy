@@ -93,7 +93,7 @@ services:
       - "11112:11112"
       - "8080:8080"
     environment:
-      AUTH_SERVER_URL: https://192.168.205.102/realms/dcm4chee
+      AUTH_SERVER_URL: https://10.100.100.5/realms/dcm4chee
       KEYCLOAK_REALM: dcm4chee
       WILDFLY_CHASSIS: secure-ui
       POSTGRES_DB: pacsdb

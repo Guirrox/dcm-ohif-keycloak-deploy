@@ -9,7 +9,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # Sin color
 
 # 1. DETECCIÓN DE IP / CONFIGURACIÓN
-# Si pasas una IP como argumento (./generate-ssl.sh 10.0.0.5), la usa.
+# Si pasas una IP como argumento (./generate-ssl.sh 10.100.100.5), la usa.
 # Si no pasas nada, detecta la IP local automáticamente.
 IP_AUTO=$(hostname -I | awk '{print $1}')
 DOMAIN="${1:-$IP_AUTO}"

@@ -10,9 +10,9 @@ window.config = {
       sourceName: 'dicomweb',
       configuration: {
         name: 'DCM4CHEE',
-        wadoUriRoot: 'https://192.168.205.102/dcm4chee-arc/aets/DCM4CHEE/wado',
-        qidoRoot: 'https://192.168.205.102/dcm4chee-arc/aets/DCM4CHEE/rs',
-        wadoRoot: 'https://192.168.205.102/dcm4chee-arc/aets/DCM4CHEE/rs',
+        wadoUriRoot: 'https://10.100.100.5/dcm4chee-arc/aets/DCM4CHEE/wado',
+        qidoRoot: 'https://10.100.100.5/dcm4chee-arc/aets/DCM4CHEE/rs',
+        wadoRoot: 'https://10.100.100.5/dcm4chee-arc/aets/DCM4CHEE/rs',
         qidoSupportsIncludeField: true,
         imageRendering: 'wadors',
         thumbnailRendering: 'wadors',
@@ -26,9 +26,9 @@ window.config = {
   defaultDataSourceName: 'dicomweb',
   oidc: [
     {
-      authority: 'https://192.168.205.102/realms/dcm4chee',
+      authority: 'https://10.100.100.5/realms/dcm4chee',
       client_id: 'ohif-viewer',
-      redirect_uri: 'https://192.168.205.102/callback',
+      redirect_uri: 'https://10.100.100.5/callback',
       response_type: 'code',
       scope: 'openid profile email',
       post_logout_redirect_uri: '/logout-redirect.html',
