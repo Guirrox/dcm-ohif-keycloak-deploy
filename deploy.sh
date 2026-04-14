@@ -11,7 +11,7 @@ NC='\033[0m' # No Color
 # --- Encabezado Visual ---
 clear
 echo -e "${BLUE}╔═══════════════════════════════════════════════════════════════╗${NC}"
-echo -e "${BLUE}║${NC}  ${CYAN}🚀 SISTEMA DE DESPLIEGUE AUTOMATIZADO DCM4CHEE + OHIF${NC}       ${BLUE}║${NC}"
+echo -e "${BLUE}║${NC}  ${CYAN}🚀 REDIECH PACS ${NC}       ${BLUE}║${NC}"
 echo -e "${BLUE}╚═══════════════════════════════════════════════════════════════╝${NC}"
 echo ""
 
@@ -73,9 +73,9 @@ echo ""
 echo -e "${BLUE}╔═══════════════════════════════════════════════════════════════╗${NC}"
 echo -e "${BLUE}║${NC}  ${GREEN}✅ DESPLIEGUE COMPLETADO CON ÉXITO${NC}                          ${BLUE}║${NC}"
 echo -e "${BLUE}╠═══════════════════════════════════════════════════════════════╣${NC}"
-echo -e "${BLUE}║${NC}  ${YELLOW}🌐 Acceso PACS:${NC}     https://$IP_ACTUAL             ${BLUE}║${NC}"
-echo -e "${BLUE}║${NC}  ${YELLOW}🌐 Acceso OHIF:${NC}     https://$IP_ACTUAL/ohif        ${BLUE}║${NC}"
-echo -e "${BLUE}║${NC}  ${YELLOW}🌐 Keycloak Admin:${NC}  https://$IP_ACTUAL/auth        ${BLUE}║${NC}"
+echo -e "${BLUE}║${NC}  ${YELLOW}🌐 Acceso OHIF:${NC}     https://$IP_ACTUAL             ${BLUE}║${NC}"
+echo -e "${BLUE}║${NC}  ${YELLOW}🌐 Acceso DCM4CHEE:${NC}     https://$IP_ACTUAL/dcm4chee-arc/ui2/       ${BLUE}║${NC}"
+echo -e "${BLUE}║${NC}  ${YELLOW}🌐 Keycloak Admin:${NC}  https://$IP_ACTUAL/admin        ${BLUE}║${NC}"
 echo -e "${BLUE}╚═══════════════════════════════════════════════════════════════╝${NC}"
 echo -e "      ${CYAN}📌 Certificados SSL guardados en: ./nginx/ssl/${NC}"
 echo -e "      ${CYAN}🔐 Recuerda aceptar el certificado auto-firmado en el navegador.${NC}\n"
