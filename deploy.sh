@@ -11,7 +11,7 @@ NC='\033[0m' # No Color
 # --- Encabezado Visual ---
 clear
 echo -e "${BLUE}╔═══════════════════════════════════════════════════════════════╗${NC}"
-echo -e "${BLUE}║${NC}  ${CYAN}🚀 REDIECH PACS ${NC}       ${BLUE}║${NC}"
+echo -e "${BLUE}║${NC}  ${CYAN}🚀 REDITECH PACS ${NC}       ${BLUE}║${NC}"
 echo -e "${BLUE}╚═══════════════════════════════════════════════════════════════╝${NC}"
 echo ""
 
